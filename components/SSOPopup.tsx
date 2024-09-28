@@ -38,6 +38,10 @@ const SSOPopup: React.FC<SSOPopupProps> = ({ isOpen, onClose, mode, onLogin, isD
         <div className="space-y-4">
           {/* SSO buttons here (unchanged) */}
         </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Your form inputs go here */}
+          <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-md">{buttonText}</button>
+        </form>
         <p className="text-center mt-6 text-sm">
           <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>{alternateActionText}</span>{' '}
           <a href="#" className="text-blue-600 hover:underline" onClick={() => onLogin({ name: 'New User' })}>{alternateActionLink}</a>
@@ -46,7 +50,7 @@ const SSOPopup: React.FC<SSOPopupProps> = ({ isOpen, onClose, mode, onLogin, isD
           <a href="#" className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} hover:underline`}>Forgot email or trouble signing in? Get help.</a>
         </p>
         <p className={`text-center text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-500'} mt-8`}>
-          Click "Sign in" to agree to Auxilium's Terms of Service and acknowledge that Auxilium's Privacy Policy applies to you.
+          Click &quot;{buttonText}&quot; to agree to Auxilium&apos;s Terms of Service and acknowledge that Auxilium&apos;s Privacy Policy applies to you.
         </p>
       </div>
     </div>
