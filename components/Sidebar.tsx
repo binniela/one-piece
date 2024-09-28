@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Menu, PlusCircle, RefreshCcw, HelpCircle, Settings, LogOut, ChevronLeft, ChevronRight, Moon, Sun } from 'lucide-react'
+import { Menu, PlusCircle, RefreshCcw, HelpCircle, Settings, LogOut, Moon, Sun } from 'lucide-react'
 
 interface SidebarProps {
   onLogout: () => void
