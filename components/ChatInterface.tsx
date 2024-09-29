@@ -27,7 +27,7 @@ export default function ChatInterface() {
   }
 
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode)
+    setIsDarkMode((prevMode) => !prevMode)
   }
 
   return (
