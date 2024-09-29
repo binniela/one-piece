@@ -1,4 +1,3 @@
-import React from 'react'
 import { X } from 'lucide-react'
 
 interface SSOPopupProps {
@@ -9,52 +8,67 @@ interface SSOPopupProps {
   isDarkMode: boolean
 }
 
-const SSOPopup: React.FC<SSOPopupProps> = ({ isOpen, onClose, mode, onLogin, isDarkMode }) => {
+export default function SSOPopup({ isOpen, onClose, mode, onLogin, isDarkMode }: SSOPopupProps) {
   if (!isOpen) return null
 
-  const title = mode === 'signin' ? 'Welcome back.' : 'Create your account'
-  const alternateActionText = mode === 'signin' ? "No account?" : "Already have an account?"
-  const alternateActionLink = mode === 'signin' ? "Create one" : "Sign in"
-  const buttonText = mode === 'signin' ? "Sign in" : "Sign up"
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Simulate login/signup process
-    onLogin({ name: 'User' }) // Replace with actual user data
+  const handleLogin = () => {
+    // Simulating login
+    onLogin({ name: 'John Doe' })
     onClose()
   }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className={`${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} rounded-3xl p-8 max-w-md w-full relative shadow-lg`}>
-        <button 
-          onClick={onClose} 
-          className={`absolute top-4 right-4 ${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-700'}`}
-          aria-label="Close"
-        >
-          <X className="w-6 h-6" />
-        </button>
-        <h2 className="text-3xl font-bold text-center mb-6">{title}</h2>
-        <div className="space-y-4">
-          {/* SSO buttons here (unchanged) */}
+      <div className={`${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} p-8 rounded-lg shadow-xl max-w-md w-full`}>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold">{mode === 'signin' ? 'Sign In' : 'Sign Up'}</h2>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+            <X className="h-6 w-6" />
+          </button>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Your form inputs go here */}
-          <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-md">{buttonText}</button>
-        </form>
-        <p className="text-center mt-6 text-sm">
-          <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>{alternateActionText}</span>{' '}
-          <a href="#" className="text-blue-600 hover:underline" onClick={() => onLogin({ name: 'New User' })}>{alternateActionLink}</a>
-        </p>
-        <p className="text-center mt-4 text-sm">
-          <a href="#" className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} hover:underline`}>Forgot email or trouble signing in? Get help.</a>
-        </p>
-        <p className={`text-center text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-500'} mt-8`}>
-          Click &quot;{buttonText}&quot; to agree to Auxilium&apos;s Terms of Service and acknowledge that Auxilium&apos;s Privacy Policy applies to you.
-        </p>
+        
+        <div className="space-y-4">
+          <button onClick={handleLogin} className="w-full flex items-center justify-center space-x-2 border border-gray-300 rounded-full py-2 px-4 hover:bg-gray-100 transition duration-300">
+            <img src="/google-icon.png" alt="Google" className="w-6 h-6" />
+            <span>Sign in with Google</span>
+          </button>
+          
+          <button onClick={handleLogin} className="w-full flex items-center justify-center space-x-2 border border-gray-300 rounded-full py-2 px-4 hover:bg-gray-100 transition duration-300">
+            <img src="/facebook-icon.png" alt="Facebook" className="w-6 h-6" />
+            <span>Sign in with Facebook</span>
+          </button>
+          
+          <button onClick={handleLogin} className="w-full flex items-center justify-center space-x-2 border border-gray-300 rounded-full py-2 px-4 hover:bg-gray-100 transition duration-300">
+            <img src="/apple-icon.png" alt="Apple" className="w-6 h-6" />
+            <span>Sign in with Apple</span>
+          </button>
+          
+          <button onClick={handleLogin} className="w-full flex items-center justify-center space-x-2 border border-gray-300 rounded-full py-2 px-4 hover:bg-gray-100 transition duration-300">
+            <img src="/x-icon.png" alt="X" className="w-6 h-6" />
+            <span>Sign in with X</span>
+          </button>
+          
+          <button onClick={handleLogin} className="w-full flex items-center justify-center space-x-2 border border-gray-300 rounded-full py-2 px-4 hover:bg-gray-100 transition duration-300">
+            <span className="material-icons">email</span>
+            <span>Sign in with email</span>
+          </button>
+        </div>
+        
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600">
+            {mode === 'signin' ? "No account?" : "Already have an account?"}
+            <button onClick={() => {}} className="ml-1 text-blue-600 hover:underline">
+              {mode === 'signin' ? "Create one" : "Sign in"}
+            </button>
+          </p>
+        </div>
+        
+        <div className="mt-4 text-center">
+          <button onClick={() => {}} className="text-sm text-gray-600 hover:underline">
+            Forgot email or trouble signing in? Get help.
+          </button>
+        </div>
       </div>
     </div>
   )
 }
-
-export default SSOPopup
