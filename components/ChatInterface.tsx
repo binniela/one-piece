@@ -1,65 +1,70 @@
+// ChatInterface.tsx
 'use client'
 
-import { useState, useEffect } from 'react'
-import { ThumbsUp, ThumbsDown, RefreshCw, Share2, MoreHorizontal, Volume2 } from 'lucide-react'
-import Sidebar from './Sidebar'
-import ChatArea from './ChatArea'
-import InputArea from './InputArea'
-import SSOPopup from './SSOPopup'
+import { useState, useEffect } from 'react';
+import { User } from 'lucide-react';
+import Sidebar from './Sidebar';
+import ChatArea from './ChatArea';
+import InputArea from './InputArea';
+import SSOPopup from './SSOPopup';
 
 interface Message {
-  id: string
-  content: string
-  sender: 'user' | 'ai'
+  id: string;
+  content: string;
+  sender: 'user' | 'ai';
 }
 
 export default function ChatInterface() {
-  const [query, setQuery] = useState('')
-  const [isSignInOpen, setIsSignInOpen] = useState(false)
-  const [user, setUser] = useState<{ name: string } | null>(null)
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [query, setQuery] = useState('');
+  const [isSignInOpen, setIsSignInOpen] = useState(false);
+  const [user, setUser] = useState<{ name: string } | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoaded(true)
-  }, [])
+    setIsLoaded(true);
+  }, []);
 
   const handleLogin = (userData: { name: string }) => {
-    setUser(userData)
-    setIsSignInOpen(false)
-  }
+    setUser(userData);
+    setIsSignInOpen(false);
+  };
 
   const handleLogout = () => {
-    setUser(null)
-  }
+    setUser(null);
+  };
 
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode)
-  }
+    setIsDarkMode(prev => !prev);
+  };
 
   const sendMessage = async (content: string) => {
-    const userMessage: Message = { id: Date.now().toString(), content, sender: 'user' }
-    setMessages(prev => [...prev, userMessage])
-    setIsLoading(true)
+    const userMessage: Message = { id: Date.now().toString(), content, sender: 'user' };
+    setMessages(prev => [...prev, userMessage]);
+    setIsLoading(true);
 
     try {
-      // Replace with your actual API call
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: content })
-      })
-      const data = await response.json()
-      const aiMessage: Message = { id: Date.now().toString(), content: data.response, sender: 'ai' }
-      setMessages(prev => [...prev, aiMessage])
+        body: JSON.stringify({ message: content }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      const aiMessage: Message = { id: Date.now().toString(), content: data.response, sender: 'ai' };
+      setMessages(prev => [...prev, aiMessage]);
     } catch (error) {
-      console.error('Error fetching response:', error)
+      console.error('Error fetching response:', error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className={`flex h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
@@ -71,23 +76,27 @@ export default function ChatInterface() {
       />
       
       <div className="flex-1 flex flex-col overflow-hidden ml-16">
-        <ChatArea 
-          isLoaded={isLoaded} 
-          user={user} 
-          onOpenSignIn={() => setIsSignInOpen(true)}
-          isDarkMode={isDarkMode}
-          messages={messages}
-          isLoading={isLoading}
-        />
-        <InputArea 
-          query={query} 
-          setQuery={setQuery} 
-          isDarkMode={isDarkMode} 
-          onSendMessage={sendMessage}
-        />
+        {isLoaded && (
+          <>
+            <ChatArea 
+              user={user} 
+              onOpenSignIn={() => setIsSignInOpen(true)}
+              isDarkMode={isDarkMode}
+              messages={messages}
+              isLoading={isLoading}
+              isLoaded={isLoaded} // Ensure this is passed
+            />
+            <InputArea 
+              query={query} 
+              setQuery={setQuery} 
+              isDarkMode={isDarkMode} 
+              onSendMessage={sendMessage}
+            />
+          </>
+        )}
       </div>
 
       <SSOPopup isOpen={isSignInOpen} onClose={() => setIsSignInOpen(false)} mode="signin" onLogin={handleLogin} isDarkMode={isDarkMode} />
     </div>
-  )
+  );
 }
