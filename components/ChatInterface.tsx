@@ -1,10 +1,17 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { ThumbsUp, ThumbsDown, RefreshCw, Share2, MoreHorizontal, Volume2 } from 'lucide-react'
 import Sidebar from './Sidebar'
 import ChatArea from './ChatArea'
 import InputArea from './InputArea'
 import SSOPopup from './SSOPopup'
+
+interface Message {
+  id: string
+  content: string
+  sender: 'user' | 'ai'
+}
 
 export default function ChatInterface() {
   const [query, setQuery] = useState('')
@@ -12,6 +19,8 @@ export default function ChatInterface() {
   const [user, setUser] = useState<{ name: string } | null>(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
+  const [messages, setMessages] = useState<Message[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     setIsLoaded(true)
@@ -27,11 +36,33 @@ export default function ChatInterface() {
   }
 
   const toggleDarkMode = () => {
-    setIsDarkMode((prevMode) => !prevMode)
+    setIsDarkMode(!isDarkMode)
+  }
+
+  const sendMessage = async (content: string) => {
+    const userMessage: Message = { id: Date.now().toString(), content, sender: 'user' }
+    setMessages(prev => [...prev, userMessage])
+    setIsLoading(true)
+
+    try {
+      // Replace with your actual API call
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: content })
+      })
+      const data = await response.json()
+      const aiMessage: Message = { id: Date.now().toString(), content: data.response, sender: 'ai' }
+      setMessages(prev => [...prev, aiMessage])
+    } catch (error) {
+      console.error('Error fetching response:', error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
-    <div className={`flex h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
+    <div className={`flex h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
       <Sidebar 
         onLogout={handleLogout} 
         user={user}
@@ -45,8 +76,15 @@ export default function ChatInterface() {
           user={user} 
           onOpenSignIn={() => setIsSignInOpen(true)}
           isDarkMode={isDarkMode}
+          messages={messages}
+          isLoading={isLoading}
         />
-        <InputArea query={query} setQuery={setQuery} isDarkMode={isDarkMode} />
+        <InputArea 
+          query={query} 
+          setQuery={setQuery} 
+          isDarkMode={isDarkMode} 
+          onSendMessage={sendMessage}
+        />
       </div>
 
       <SSOPopup isOpen={isSignInOpen} onClose={() => setIsSignInOpen(false)} mode="signin" onLogin={handleLogin} isDarkMode={isDarkMode} />
