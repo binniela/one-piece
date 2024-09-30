@@ -11,44 +11,46 @@ interface SSOPopupProps {
 export default function SSOPopup({ isOpen, onClose, mode, onLogin, isDarkMode }: SSOPopupProps) {
   if (!isOpen) return null
 
-  const handleLogin = () => {
+  const handleLogin = (provider: string) => {
     // Simulating login
     onLogin({ name: 'John Doe' })
     onClose()
   }
+
+  const buttonStyles = `w-full flex items-center justify-center space-x-2 border border-gray-300 rounded-full py-2 px-4 hover:bg-gray-100 transition duration-300`
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className={`${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} p-8 rounded-lg shadow-xl max-w-md w-full`}>
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">{mode === 'signin' ? 'Sign In' : 'Sign Up'}</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700" aria-label="Close">
             <X className="h-6 w-6" />
           </button>
         </div>
         
         <div className="space-y-4">
-          <button onClick={handleLogin} className="w-full flex items-center justify-center space-x-2 border border-gray-300 rounded-full py-2 px-4 hover:bg-gray-100 transition duration-300">
+          <button onClick={() => handleLogin('Google')} className={buttonStyles} aria-label="Sign in with Google">
             <img src="/google-icon.png" alt="Google" className="w-6 h-6" />
             <span>Sign in with Google</span>
           </button>
           
-          <button onClick={handleLogin} className="w-full flex items-center justify-center space-x-2 border border-gray-300 rounded-full py-2 px-4 hover:bg-gray-100 transition duration-300">
+          <button onClick={() => handleLogin('Facebook')} className={buttonStyles} aria-label="Sign in with Facebook">
             <img src="/facebook-icon.png" alt="Facebook" className="w-6 h-6" />
             <span>Sign in with Facebook</span>
           </button>
           
-          <button onClick={handleLogin} className="w-full flex items-center justify-center space-x-2 border border-gray-300 rounded-full py-2 px-4 hover:bg-gray-100 transition duration-300">
+          <button onClick={() => handleLogin('Apple')} className={buttonStyles} aria-label="Sign in with Apple">
             <img src="/apple-icon.png" alt="Apple" className="w-6 h-6" />
             <span>Sign in with Apple</span>
           </button>
           
-          <button onClick={handleLogin} className="w-full flex items-center justify-center space-x-2 border border-gray-300 rounded-full py-2 px-4 hover:bg-gray-100 transition duration-300">
+          <button onClick={() => handleLogin('X')} className={buttonStyles} aria-label="Sign in with X">
             <img src="/x-icon.png" alt="X" className="w-6 h-6" />
             <span>Sign in with X</span>
           </button>
           
-          <button onClick={handleLogin} className="w-full flex items-center justify-center space-x-2 border border-gray-300 rounded-full py-2 px-4 hover:bg-gray-100 transition duration-300">
+          <button onClick={() => handleLogin('Email')} className={buttonStyles} aria-label="Sign in with email">
             <span className="material-icons">email</span>
             <span>Sign in with email</span>
           </button>
