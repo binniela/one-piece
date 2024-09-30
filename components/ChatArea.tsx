@@ -6,24 +6,31 @@ const suggestedPrompts = [
   { text: "How do I enroll in Medicare Part B?", icon: <Clipboard className="h-6 w-6" /> },
   { text: "What's the difference between Medicare and Medicaid?", icon: <HelpCircle className="h-6 w-6" /> },
   { text: "Find Medicare-approved doctors near me", icon: <Search className="h-6 w-6" /> },
-]
+];
 
 interface Message {
-  id: string
-  content: string
-  sender: 'user' | 'ai'
+  id: string;
+  content: string;
+  sender: 'user' | 'ai';
 }
 
 interface ChatAreaProps {
-  isLoaded: boolean
-  user: { name: string } | null
-  onOpenSignIn: () => void
-  isDarkMode: boolean
-  messages: Message[]
-  isLoading: boolean
+  isLoaded: boolean;
+  user: { name: string } | null;
+  onOpenSignIn: () => void;
+  isDarkMode: boolean;
+  messages: Message[];
+  isLoading: boolean;
 }
 
-export default function ChatArea({ isLoaded, user, onOpenSignIn, isDarkMode, messages, isLoading }: ChatAreaProps) {
+export default function ChatArea({
+  isLoaded,
+  user,
+  onOpenSignIn,
+  isDarkMode,
+  messages,
+  isLoading,
+}: ChatAreaProps) {
   return (
     <>
       <header className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-sm p-6 flex items-center justify-between`}>
@@ -105,5 +112,5 @@ export default function ChatArea({ isLoaded, user, onOpenSignIn, isDarkMode, mes
         )}
       </main>
     </>
-  )
+  );
 }
