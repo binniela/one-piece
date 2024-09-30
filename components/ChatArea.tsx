@@ -1,5 +1,5 @@
-import { User, Clipboard, HelpCircle, Search, FileText } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { User, Clipboard, HelpCircle, Search, FileText, ThumbsUp, ThumbsDown, RefreshCw, Share2, MoreHorizontal } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const suggestedPrompts = [
   { text: "Explain Medicare Part A coverage and benefits", icon: <FileText className="h-6 w-6" /> },
