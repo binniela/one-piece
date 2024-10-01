@@ -12,7 +12,8 @@ interface SSOPopupProps {
 export default function SSOPopup({ isOpen, onClose, mode, onLogin, isDarkMode }: SSOPopupProps) {
   if (!isOpen) return null;
 
- const handleLogin = () => {
+  const handleLogin = (provider: string) => {
+    // Simulating login with provider
     onLogin({ name: 'John Doe' });
     onClose();
   };
