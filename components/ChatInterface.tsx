@@ -1,8 +1,7 @@
 // ChatInterface.tsx
-'use client'
+'use client';
 
 import { useState, useEffect } from 'react';
-import { User } from 'lucide-react';
 import Sidebar from './Sidebar';
 import ChatArea from './ChatArea';
 import InputArea from './InputArea';
@@ -84,7 +83,7 @@ export default function ChatInterface() {
               isDarkMode={isDarkMode}
               messages={messages}
               isLoading={isLoading}
-              isLoaded={isLoaded} // Ensure this is passed
+              isLoaded={isLoaded}
             />
             <InputArea 
               query={query} 
