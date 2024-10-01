@@ -1,23 +1,24 @@
-import { X } from 'lucide-react'
+import Image from 'next/image';
+import { X } from 'lucide-react';
 
 interface SSOPopupProps {
-  isOpen: boolean
-  onClose: () => void
-  mode: 'signin' | 'signup'
-  onLogin: (userData: { name: string }) => void
-  isDarkMode: boolean
+  isOpen: boolean;
+  onClose: () => void;
+  mode: 'signin' | 'signup';
+  onLogin: (userData: { name: string }) => void;
+  isDarkMode: boolean;
 }
 
 export default function SSOPopup({ isOpen, onClose, mode, onLogin, isDarkMode }: SSOPopupProps) {
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   const handleLogin = (provider: string) => {
     // Simulating login
-    onLogin({ name: 'John Doe' })
-    onClose()
-  }
+    onLogin({ name: 'John Doe' });
+    onClose();
+  };
 
-  const buttonStyles = `w-full flex items-center justify-center space-x-2 border border-gray-300 rounded-full py-2 px-4 hover:bg-gray-100 transition duration-300`
+  const buttonStyles = `w-full flex items-center justify-center space-x-2 border border-gray-300 rounded-full py-2 px-4 hover:bg-gray-100 transition duration-300`;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -31,22 +32,22 @@ export default function SSOPopup({ isOpen, onClose, mode, onLogin, isDarkMode }:
         
         <div className="space-y-4">
           <button onClick={() => handleLogin('Google')} className={buttonStyles} aria-label="Sign in with Google">
-            <img src="/google-icon.png" alt="Google" className="w-6 h-6" />
+            <Image src="/google-icon.png" alt="Google" width={24} height={24} />
             <span>Sign in with Google</span>
           </button>
           
           <button onClick={() => handleLogin('Facebook')} className={buttonStyles} aria-label="Sign in with Facebook">
-            <img src="/facebook-icon.png" alt="Facebook" className="w-6 h-6" />
+            <Image src="/facebook-icon.png" alt="Facebook" width={24} height={24} />
             <span>Sign in with Facebook</span>
           </button>
           
           <button onClick={() => handleLogin('Apple')} className={buttonStyles} aria-label="Sign in with Apple">
-            <img src="/apple-icon.png" alt="Apple" className="w-6 h-6" />
+            <Image src="/apple-icon.png" alt="Apple" width={24} height={24} />
             <span>Sign in with Apple</span>
           </button>
           
           <button onClick={() => handleLogin('X')} className={buttonStyles} aria-label="Sign in with X">
-            <img src="/x-icon.png" alt="X" className="w-6 h-6" />
+            <Image src="/x-icon.png" alt="X" width={24} height={24} />
             <span>Sign in with X</span>
           </button>
           
@@ -72,5 +73,5 @@ export default function SSOPopup({ isOpen, onClose, mode, onLogin, isDarkMode }:
         </div>
       </div>
     </div>
-  )
+  );
 }
