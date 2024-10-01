@@ -14,6 +14,7 @@ export default function SSOPopup({ isOpen, onClose, mode, onLogin, isDarkMode }:
 
   const handleLogin = (provider: string) => {
     // Simulating login with provider
+    console.log(`Logging in with ${provider}`);  // Use provider variable here
     onLogin({ name: 'John Doe' });
     onClose();
   };
